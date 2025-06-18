@@ -17,7 +17,7 @@ Welcome to **StudyZone** — your all-in-one student hub.
 
 ## Credits
 
-- Project by Michael Le
+- Project by averagegael
 - Proxy powered by Roogle
 
 ## Future Plans
