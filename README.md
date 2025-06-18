@@ -12,7 +12,7 @@ Welcome to **StudyZone** — your all-in-one student hub.
 ## How it works
 
 - This site is fully hosted on **GitHub Pages**.
-- The proxy (Roogle) is hosted via GitHub Pages + Cloudflare Workers.
+- The proxy (Roogle) is a hybrid between iframe and ultraviolet
 - Most tools run fully client-side, no backend needed.
 
 ## Credits
@@ -25,7 +25,7 @@ Welcome to **StudyZone** — your all-in-one student hub.
 - Add homework planner
 - Add schedule manager
 - Add school-safe games section
-- Improve chat features
+- Add chat
 
 ---
 
