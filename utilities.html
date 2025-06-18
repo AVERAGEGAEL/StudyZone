@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Utilities</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>…same navbar…</nav>
+  <h2 style="text-align:center;">Grade Calculator</h2>
+  <div class="centered">
+    <input type="number" id="score" placeholder="Your score">
+    <input type="number" id="total" placeholder="Total points">
+    <button onclick="calculateGrade()">Calculate</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculateGrade() {
+      const s = parseFloat(document.getElementById('score').value);
+      const t = parseFloat(document.getElementById('total').value);
+      if (t > 0 && !isNaN(s)) {
+        document.getElementById('result').innerText = `You scored ${((s/t*100).toFixed(2))}%`;
+      } else {
+        document.getElementById('result').innerText = "Enter valid numbers.";
+      }
+    }
+  </script>
+</body>
+</html>
