@@ -5,7 +5,7 @@ Welcome to **StudyZone** — your all-in-one student hub.
 ## Features
 
 - 🌐 Proxy Unblocker (Roogle)
-- 🤖 AI Tools (ChatGPT, Perplexity, more)
+- 🤖 AI Tools (ChatGPT)
 - 📊 School Utilities (grade calculators, homework tracker)
 - 💬 Chatroom for students
 
