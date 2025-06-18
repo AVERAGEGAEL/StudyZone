@@ -1,41 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>StudyZone</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<header>
+  <div class="logo">📚 StudyZone</div>
   <nav>
-    <h1>StudyZone</h1>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="proxy.html">Proxy</a>
-      <a href="ai.html">AI</a>
-      <a href="utilities.html">Utilities</a>
-    </div>
+    <a href="index.html">Home</a>
+    <a href="proxy.html">Proxy</a>
+    <a href="ai.html">AI</a>
+    <a href="utilities.html">Utilities</a>
   </nav>
-  <main>
-    <h2>Grade Calculator</h2>
-    <div class="centered">
-      <input type="number" id="score" placeholder="Your score" />
-      <input type="number" id="total" placeholder="Total possible" />
-      <button onclick="calculateGrade()">Calculate</button>
-      <p id="result"></p>
-    </div>
-  </main>
+</header>
+
+<main>
+  <h1>Grade Calculator</h1>
+
+  <div class="calculator">
+    <input type="number" id="score" placeholder="Your Score">
+    <input type="number" id="total" placeholder="Total Points">
+    <button onclick="calculate()">Calculate</button>
+    <p id="result"></p>
+  </div>
 
   <script>
-    function calculateGrade() {
-      const s = parseFloat(document.getElementById('score').value);
-      const t = parseFloat(document.getElementById('total').value);
-      if (!isNaN(s) && !isNaN(t) && t > 0) {
-        const pct = (s / t * 100).toFixed(2);
-        document.getElementById('result').innerText = `You scored: ${pct}% 🎉`;
+    function calculate() {
+      const score = parseFloat(document.getElementById("score").value);
+      const total = parseFloat(document.getElementById("total").value);
+      if (!isNaN(score) && !isNaN(total) && total > 0) {
+        const percent = ((score / total) * 100).toFixed(2);
+        document.getElementById("result").innerText = `You scored: ${percent}% 🎯`;
       } else {
-        document.getElementById('result').innerText = "Please enter valid numbers.";
+        document.getElementById("result").innerText = "Enter valid numbers.";
       }
     }
   </script>
+
+</main>
+
+<footer>Made with ❤️ by averagegael</footer>
+
 </body>
 </html>
