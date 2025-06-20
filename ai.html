@@ -8,28 +8,35 @@
 </head>
 <body>
 
-<div class="navbar">
-  <div class="logo">📚 StudyZone</div>
-  <div class="menu">
-    <a href="index.html">Home</a>
-    <a href="ai.html">AI Chat</a>
-    <a href="utilities.html">Utilities</a>
+<header>
+  <div class="container">
+    <div class="logo">📚 StudyZone</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="proxy.html">Proxy</a>
+      <a href="ai.html">AI Chat</a>
+      <a href="utilities.html">Utilities</a>
+    </nav>
   </div>
-</div>
+</header>
 
-<div class="main">
-  <h1>StudyZone AI Chat</h1>
-  <div class="chatbox">
-    <div id="chatlog"></div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type your question..." />
-      <button onclick="sendMessage()">Send</button>
+<main>
+  <div class="container">
+    <h1>AI Chat</h1>
+
+    <div class="chatbox">
+      <div id="chatlog"></div>
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your question..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
     </div>
+
   </div>
-</div>
+</main>
 
 <script>
-const OPENAI_API_KEY = "YOUR_API_KEY_HERE";  // <-- Put your key here!
+const OPENAI_API_KEY = "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";  // Replace with your real API key privately!
 
 async function sendMessage() {
   const input = document.getElementById("userInput");
@@ -54,12 +61,6 @@ async function sendMessage() {
   });
 
   const data = await response.json();
-
-  if (data.error) {
-    addToChat("Error", data.error.message);
-    return;
-  }
-
   const reply = data.choices[0].message.content.trim();
   addToChat("AI", reply);
 }
@@ -72,47 +73,6 @@ function addToChat(sender, text) {
   chatlog.scrollTop = chatlog.scrollHeight;
 }
 </script>
-
-<style>
-.chatbox {
-  margin: 40px auto;
-  width: 90%;
-  max-width: 700px;
-  background: #292944;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: left;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-#chatlog {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 20px;
-}
-
-.input-area {
-  display: flex;
-}
-
-.input-area input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 8px 0 0 8px;
-  border: none;
-  font-size: 1em;
-}
-
-.input-area button {
-  padding: 12px 20px;
-  border: none;
-  background: #f39c12;
-  color: white;
-  border-radius: 0 8px 8px 0;
-  font-weight: bold;
-  cursor: pointer;
-}
-</style>
 
 </body>
 </html>
