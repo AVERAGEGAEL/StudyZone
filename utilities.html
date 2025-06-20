@@ -1,55 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>StudyZone</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>StudyZone - Utilities</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="app-container">
-
-  <header class="topbar">
+<header>
+  <div class="container">
     <div class="logo">📚 StudyZone</div>
-    <nav class="nav">
+    <nav>
       <a href="index.html">Home</a>
       <a href="proxy.html">Proxy</a>
-      <a href="ai.html">AI</a>
+      <a href="ai.html">AI Chat</a>
       <a href="utilities.html">Utilities</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main class="content">
-    <h1>Grade Calculator</h1>
-    <p>Quickly calculate your grade percentage.</p>
-
-    <div class="calculator">
-      <input type="number" id="score" placeholder="Your Score">
-      <input type="number" id="total" placeholder="Total Points">
-      <button onclick="calculate()">Calculate</button>
-      <p id="result"></p>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <p>Made with ❤️ by averagegael</p>
-  </footer>
-
-</div>
-
-<script>
-  function calculate() {
-    const score = parseFloat(document.getElementById("score").value);
-    const total = parseFloat(document.getElementById("total").value);
-    if (!isNaN(score) && !isNaN(total) && total > 0) {
-      const percent = ((score / total) * 100).toFixed(2);
-      document.getElementById("result").innerText = `You scored: ${percent}% 🎯`;
-    } else {
-      document.getElementById("result").innerText = "Enter valid numbers.";
-    }
-  }
-</script>
+<main>
+  <div class="container">
+    <h1>Utilities</h1>
+    <p>More tools coming soon...</p>
+  </div>
+</main>
 
 </body>
 </html>
