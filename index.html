@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>StudyZone</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-  <div class="container">
-    <div class="logo">📚 StudyZone</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="proxy.html">Proxy</a>
-      <a href="ai.html">AI Chat</a>
-      <a href="utilities.html">Utilities</a>
+  <header class="topbar">
+    <div class="brand">StudyZone</div>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="ai.html" class="nav-link">Homework Helper</a>
+      <a href="grade.html" class="nav-link">Grade Calculator</a>
+      <a href="roogle.html" class="nav-link">Research Tool</a>
+      <a href="proxy.html" class="nav-link">Web Tools</a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main>
-  <div class="container">
-    <h1>Welcome to StudyZone</h1>
-    <div class="cards">
-      <div class="card">
-        <h2>🔓 Proxy</h2>
-        <p>Bypass restrictions (coming soon!)</p>
-        <a href="proxy.html">Open Proxy</a>
+  <main class="container">
+    <section class="hero">
+      <h1>School tools in one place</h1>
+      <p>Quick tools for students: AI helper, grade calculator, research, and web tools — all inside StudyZone Beta.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="ai.html">Open Homework Helper</a>
+        <a class="btn" href="grade.html">Open Grade Calculator</a>
       </div>
-      <div class="card">
-        <h2>🤖 AI Chat</h2>
-        <p>In-built AI</p>
-        <a href="ai.html">Try AI</a>
-      </div>
-      <div class="card">
-        <h2>🛠 Utilities</h2>
-        <p>Grade calculators and more tools</p>
-        <a href="utilities.html">Open Utilities</a>
-      </div>
-    </div>
-  </div>
-</main>
+    </section>
 
+    <section class="cards">
+      <article class="card">
+        <h3>Homework Helper</h3>
+        <p>AI-powered assistance for writing, explanations, and study help.</p>
+        <a class="btn small" href="ai.html">Open</a>
+      </article>
+
+      <article class="card">
+        <h3>Grade Calculator</h3>
+        <p>Quickly compute percentages and track scores.</p>
+        <a class="btn small" href="grade.html">Open</a>
+      </article>
+
+      <article class="card">
+        <h3>Research Tool</h3>
+        <p>Search and organize sources (coming soon).</p>
+        <a class="btn small" href="roogle.html">Open</a>
+      </article>
+
+      <article class="card">
+        <h3>Web Tools</h3>
+        <p>Useful in-class web utilities (coming soon).</p>
+        <a class="btn small" href="proxy.html">Open</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>StudyZone Beta — school tools.</small>
+  </footer>
 </body>
 </html>
