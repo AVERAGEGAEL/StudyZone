@@ -1,72 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>StudyZone - AI Chat</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StudyZone — Homework Helper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-  <div class="container">
-    <div class="logo">📚 StudyZone</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="proxy.html">Proxy</a>
-      <a href="ai.html">AI Chat</a>
-      <a href="utilities.html">Utilities</a>
+  <header class="topbar">
+    <div class="brand">StudyZone</div>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="ai.html" class="nav-link">Homework Helper</a>
+      <a href="grade.html" class="nav-link">Grade Calculator</a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main>
-  <div class="container">
-    <h1>AI Chat</h1>
+  <main class="container">
+    <section class="pane">
+      <h2>Homework Helper</h2>
+      <p class="muted">If the helper takes a moment to load, please wait — it connects to the AI service.</p>
 
-    <div class="chatbox">
-      <div id="chatlog"></div>
-      <div class="input-area">
-        <input type="text" id="userInput" placeholder="Type your question..." />
-        <button onclick="sendMessage()">Send</button>
+      <!-- EMBED YOUR AI SITE HERE:
+           Current value points to your AI repo. If you later change AI host, update the iframe src.
+           Ensure the AI site allows embedding (or use your worker to enable it). -->
+      <div class="iframe-wrap">
+        <iframe id="ai-frame"
+          src="https://averagegael.github.io/AI/"
+          title="Homework Helper"
+          sandbox="allow-scripts allow-same-origin allow-forms"
+          loading="lazy"></iframe>
       </div>
-    </div>
 
-  </div>
-</main>
+      <p class="muted">If the helper fails to load, open it in a new tab: <a href="https://averagegael.github.io/AI/" target="_blank" rel="noopener">Open AI site</a></p>
+    </section>
+  </main>
 
-<script>
-async function sendMessage() {
-  const input = document.getElementById("userInput");
-  const message = input.value.trim();
-  if (!message) return;
-
-  addToChat("You", message);
-  input.value = "";
-
-  try {
-    const response = await fetch("https://chatgpt.uraverageopdoge.workers.dev/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: message })
-    });
-
-    const data = await response.json();
-    const reply = data.choices[0].message.content.trim();
-    addToChat("AI", reply);
-  } catch (err) {
-    addToChat("Error", "Something went wrong. Please try again later.");
-  }
-}
-
-function addToChat(sender, text) {
-  const chatlog = document.getElementById("chatlog");
-  const entry = document.createElement("div");
-  entry.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  chatlog.appendChild(entry);
-  chatlog.scrollTop = chatlog.scrollHeight;
-}
-</script>
-
+  <footer class="footer">
+    <small>StudyZone Beta — school tools.</small>
+  </footer>
 </body>
 </html>
