@@ -25,13 +25,12 @@
   <main>
     <div class="card">
       <h2>Grade Calculator</h2>
-      <p>Enter your grades and weights to calculate your average.</p>
+      <p>Enter your grades to calculate your average.</p>
 
       <form id="gradeForm">
         <div id="gradesContainer">
           <div class="gradeRow">
             <input type="number" placeholder="Grade %" required>
-            <input type="number" placeholder="Weight %" required>
           </div>
         </div>
         <button type="button" onclick="addRow()">➕ Add Another</button>
@@ -50,37 +49,25 @@
     function addRow() {
       const row = document.createElement("div");
       row.className = "gradeRow";
-      row.innerHTML = `
-        <input type="number" placeholder="Grade %" required>
-        <input type="number" placeholder="Weight %" required>
-      `;
+      row.innerHTML = `<input type="number" placeholder="Grade %" required>`;
       gradesContainer.appendChild(row);
     }
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-      const rows = document.querySelectorAll(".gradeRow");
-      let total = 0, totalWeight = 0;
+      const rows = document.querySelectorAll(".gradeRow input");
+      let total = 0;
 
-      rows.forEach(row => {
-        const inputs = row.querySelectorAll("input");
-        let grade = parseFloat(inputs[0].value);
-        let weight = parseFloat(inputs[1].value);
-
-        if (!isNaN(grade) && !isNaN(weight)) {
-          total += grade * (weight / 100);
-          totalWeight += weight;
-        }
+      rows.forEach(input => {
+        const grade = parseFloat(input.value);
+        if (!isNaN(grade)) total += grade;
       });
 
-      if (totalWeight === 100) {
-        result.textContent = `Final Grade: ${total.toFixed(2)}%`;
-      } else {
-        result.textContent = `⚠️ Your weights must add up to 100%. Currently: ${totalWeight}%`;
-      }
+      const average = total / rows.length;
+      result.textContent = `✅ Average Grade: ${average.toFixed(2)}%`;
     });
 
-    // Sidebar search logic (same across all pages)
+    // Sidebar search logic
     const searchBar = document.getElementById("searchBar");
     searchBar.addEventListener("keyup", function(e) {
       let query = e.target.value.toLowerCase();
