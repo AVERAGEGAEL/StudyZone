@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade Calculator - StudyZone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📘 StudyZone</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>Grade Calculator</h2>
+      <p>Enter your grades and weights to calculate your average.</p>
+
+      <form id="gradeForm">
+        <div id="gradesContainer">
+          <div class="gradeRow">
+            <input type="number" placeholder="Grade %" required>
+            <input type="number" placeholder="Weight %" required>
+          </div>
+        </div>
+        <button type="button" onclick="addRow()">➕ Add Another</button>
+        <button type="submit">📊 Calculate</button>
+      </form>
+
+      <h3 id="result"></h3>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById("gradeForm");
+    const result = document.getElementById("result");
+    const gradesContainer = document.getElementById("gradesContainer");
+
+    function addRow() {
+      const row = document.createElement("div");
+      row.className = "gradeRow";
+      row.innerHTML = `
+        <input type="number" placeholder="Grade %" required>
+        <input type="number" placeholder="Weight %" required>
+      `;
+      gradesContainer.appendChild(row);
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const rows = document.querySelectorAll(".gradeRow");
+      let total = 0, totalWeight = 0;
+
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll("input");
+        let grade = parseFloat(inputs[0].value);
+        let weight = parseFloat(inputs[1].value);
+
+        if (!isNaN(grade) && !isNaN(weight)) {
+          total += grade * (weight / 100);
+          totalWeight += weight;
+        }
+      });
+
+      if (totalWeight === 100) {
+        result.textContent = `Final Grade: ${total.toFixed(2)}%`;
+      } else {
+        result.textContent = `⚠️ Your weights must add up to 100%. Currently: ${totalWeight}%`;
+      }
+    });
+
+    // Sidebar search logic (same across all pages)
+    const searchBar = document.getElementById("searchBar");
+    searchBar.addEventListener("keyup", function(e) {
+      let query = e.target.value.toLowerCase();
+      document.querySelectorAll(".sidebar ul li a").forEach(link => {
+        link.style.display = link.textContent.toLowerCase().includes(query) ? "block" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
