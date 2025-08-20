@@ -43,99 +43,118 @@
       </div>
     </div>
   </main>
-
   <script>
-    const startScreen = document.getElementById("startScreen");
-    const chatScreen = document.getElementById("chatScreen");
-    const chatCodeDisplay = document.getElementById("chatCodeDisplay");
-    const messagesDiv = document.getElementById("messages");
-    const messageInput = document.getElementById("messageInput");
-    const usernameInput = document.getElementById("username");
-    const createChatButton = document.getElementById("createChat");
-    const joinChatButton = document.getElementById("joinChat");
-    const chatCodeInput = document.getElementById("chatCodeInput");
+  const startScreen = document.getElementById("startScreen");
+  const chatScreen = document.getElementById("chatScreen");
+  const chatCodeDisplay = document.getElementById("chatCodeDisplay");
+  const messagesDiv = document.getElementById("messages");
+  const messageInput = document.getElementById("messageInput");
+  const usernameInput = document.getElementById("username");
+  const createChatButton = document.getElementById("createChat");
+  const joinChatButton = document.getElementById("joinChat");
+  const chatCodeInput = document.getElementById("chatCodeInput");
 
-    let chatCode = null;
-    let username = null;
-    let fetchInterval = null;
+  let chatCode = null;
+  let username = null;
+  let fetchInterval = null;
 
-    createChatButton.onclick = async () => {
-      username = usernameInput.value.trim();
-      if (!username) return alert("Please enter a username.");
-      const response = await fetch("https://chat.uraverageopdoge.workers.dev/create", {
-        method: "POST",
-        body: JSON.stringify({ username }),
-        headers: { "Content-Type": "application/json" }
-      });
-      const data = await response.json();
-      chatCode = data.chatCode;
+  createChatButton.onclick = async () => {
+    username = usernameInput.value.trim();
+    if (!username) return alert("Please enter a username.");
+    const response = await fetch("https://chat.uraverageopdoge.workers.dev/create", {
+      method: "POST",
+      body: JSON.stringify({ username }),
+      headers: { "Content-Type": "application/json" }
+    });
+    const data = await response.json();
+    chatCode = data.chatCode;
+    chatCodeDisplay.textContent = chatCode;
+    startScreen.style.display = "none";
+    chatScreen.style.display = "block";
+
+    // Announce join
+    await sendSystemMessage(`${username} joined the chat`);
+    initChat();
+  };
+
+  joinChatButton.onclick = async () => {
+    username = usernameInput.value.trim();
+    chatCode = chatCodeInput.value.trim().toUpperCase();
+    if (!username || !chatCode) return alert("Please enter both username and chat code.");
+    const response = await fetch("https://chat.uraverageopdoge.workers.dev/join", {
+      method: "POST",
+      body: JSON.stringify({ username, chatCode }),
+      headers: { "Content-Type": "application/json" }
+    });
+    if (response.ok) {
       chatCodeDisplay.textContent = chatCode;
       startScreen.style.display = "none";
       chatScreen.style.display = "block";
+
+      // Announce join
+      await sendSystemMessage(`${username} joined the chat`);
       initChat();
+    } else {
+      alert("Failed to join chat. Please check the chat code.");
+    }
+  };
+
+  async function initChat() {
+    const fetchMessages = async () => {
+      const response = await fetch(`https://chat.uraverageopdoge.workers.dev/messages?chat=${chatCode}`);
+      const messages = await response.json();
+      messagesDiv.innerHTML = messages.map(msg => {
+        if (msg.user === "__system__") {
+          return `<div style="color:gray;"><em>${msg.text}</em></div>`;
+        }
+        return `<div><strong>${msg.user}:</strong> ${msg.text}</div>`;
+      }).join('');
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     };
 
-    joinChatButton.onclick = async () => {
-      username = usernameInput.value.trim();
-      chatCode = chatCodeInput.value.trim().toUpperCase();
-      if (!username || !chatCode) return alert("Please enter both username and chat code.");
-      const response = await fetch("https://chat.uraverageopdoge.workers.dev/join", {
+    await fetchMessages();
+    fetchInterval = setInterval(fetchMessages, 2000);
+
+    const sendMessage = async () => {
+      const text = messageInput.value.trim();
+      if (!text) return;
+      await fetch("https://chat.uraverageopdoge.workers.dev/message", {
         method: "POST",
-        body: JSON.stringify({ username, chatCode }),
+        body: JSON.stringify({ user: username, text, chatCode }),
         headers: { "Content-Type": "application/json" }
       });
-      if (response.ok) {
-        chatCodeDisplay.textContent = chatCode;
-        startScreen.style.display = "none";
-        chatScreen.style.display = "block";
-        initChat();
-      } else {
-        alert("Failed to join chat. Please check the chat code.");
-      }
+      messageInput.value = "";
+      await fetchMessages();
     };
 
-    async function initChat() {
-      const fetchMessages = async () => {
-        const response = await fetch(`https://chat.uraverageopdoge.workers.dev/messages?chat=${chatCode}`);
-        const messages = await response.json();
-        messagesDiv.innerHTML = messages.map(msg => `<div><strong>${msg.user}:</strong> ${msg.text}</div>`).join('');
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      };
+    document.getElementById("sendMessage").onclick = sendMessage;
 
-      await fetchMessages();
-      fetchInterval = setInterval(fetchMessages, 2000);
+    // Send message on Enter key
+    messageInput.addEventListener("keydown", async (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        await sendMessage();
+      }
+    });
 
-      const sendMessage = async () => {
-        const text = messageInput.value.trim();
-        if (!text) return;
-        await fetch("https://chat.uraverageopdoge.workers.dev/message", {
-          method: "POST",
-          body: JSON.stringify({ user: username, text, chatCode }),
-          headers: { "Content-Type": "application/json" }
-        });
-        messageInput.value = "";
-        await fetchMessages();
-      };
-
-      document.getElementById("sendMessage").onclick = sendMessage;
-
-      // Send message on Enter key
-      messageInput.addEventListener("keydown", async (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          await sendMessage();
-        }
+    window.addEventListener("beforeunload", async () => {
+      clearInterval(fetchInterval);
+      await fetch("https://chat.uraverageopdoge.workers.dev/leave", {
+        method: "POST",
+        body: JSON.stringify({ user: username, chatCode }),
+        headers: { "Content-Type": "application/json" }
       });
+      await sendSystemMessage(`${username} left the chat`);
+    });
+  }
 
-      window.addEventListener("beforeunload", async () => {
-        clearInterval(fetchInterval);
-        await fetch("https://chat.uraverageopdoge.workers.dev/leave", {
-          method: "POST",
-          body: JSON.stringify({ user: username, chatCode }),
-          headers: { "Content-Type": "application/json" }
-        });
-      });
-    }
-  </script>
+  async function sendSystemMessage(text) {
+    await fetch("https://chat.uraverageopdoge.workers.dev/message", {
+      method: "POST",
+      body: JSON.stringify({ user: "__system__", text, chatCode }),
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+</script>
 </body>
 </html>
