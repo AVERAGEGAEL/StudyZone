@@ -80,11 +80,14 @@
       statusMsg.style.color = "green";
     };
 
-    // One-way redirect: replace StudyZone completely
+    // One-way redirect: open desired site in a fresh tab and close StudyZone
     document.addEventListener("keydown", e => {
       if (!safeKey || !safeUrl) return;
       if (e.key.toLowerCase() === safeKey) {
-        window.location.replace(safeUrl); // no back button possible
+        const newTab = window.open(safeUrl, "_blank"); // open site in new tab
+        try {
+          window.close(); // close current StudyZone tab (works if opened via JS)
+        } catch {}
       }
     });
   </script>
