@@ -22,7 +22,6 @@
     }
     .status {
       margin-top: 15px;
-      color: green;
       font-weight: bold;
     }
   </style>
@@ -48,8 +47,8 @@
   <main>
     <div class="card">
       <h2>Set up your Safe Lock</h2>
-      <label for="shortcutKey">Shortcut key (e.g. q, Escape, s)</label>
-      <input type="text" id="shortcutKey" placeholder="Type one key">
+      <label for="shortcutKey">Shortcut key (a single letter or number)</label>
+      <input type="text" id="shortcutKey" maxlength="1" placeholder="e.g. g">
 
       <label for="safeUrl">Safe URL (e.g. https://www.google.com)</label>
       <input type="url" id="safeUrl" placeholder="https://...">
@@ -68,10 +67,7 @@
 
     let safeKey = null;
     let safeUrl = null;
-    let studyzoneUrl = "https://averagegael.github.io/StudyZone/#home";
-    let isSafe = false;
 
-    // Save button
     saveBtn.onclick = () => {
       safeKey = shortcutInput.value.trim().toLowerCase();
       safeUrl = urlInput.value.trim();
@@ -80,22 +76,15 @@
         statusMsg.style.color = "red";
         return;
       }
-      statusMsg.textContent = `✅ Safe lock ready! Press "${safeKey}" anytime to toggle.`;
+      statusMsg.textContent = `✅ Safe lock armed! Press "${safeKey}" anytime to redirect.`;
       statusMsg.style.color = "green";
     };
 
-    // Listen for key
+    // One-way redirect
     document.addEventListener("keydown", e => {
       if (!safeKey || !safeUrl) return;
       if (e.key.toLowerCase() === safeKey) {
-        const iframe = window.frameElement; // if inside cloak
-        if (iframe) {
-          iframe.src = isSafe ? studyzoneUrl : safeUrl;
-          isSafe = !isSafe;
-        } else {
-          window.location.href = isSafe ? studyzoneUrl : safeUrl;
-          isSafe = !isSafe;
-        }
+        window.location.href = safeUrl; // one-way redirect
       }
     });
   </script>
