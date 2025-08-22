@@ -47,7 +47,7 @@
   <main>
     <div class="card">
       <h2>Set up your Safe Lock</h2>
-      <label for="shortcutKey">Shortcut key (a single letter or number)</label>
+      <label for="shortcutKey">Shortcut key (single letter or number)</label>
       <input type="text" id="shortcutKey" maxlength="1" placeholder="e.g. g">
 
       <label for="safeUrl">Safe URL (e.g. https://www.google.com)</label>
@@ -76,15 +76,15 @@
         statusMsg.style.color = "red";
         return;
       }
-      statusMsg.textContent = `✅ Safe lock armed! Press "${safeKey}" anytime to redirect.`;
+      statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
       statusMsg.style.color = "green";
     };
 
-    // One-way redirect
+    // One-way redirect: replace StudyZone completely
     document.addEventListener("keydown", e => {
       if (!safeKey || !safeUrl) return;
       if (e.key.toLowerCase() === safeKey) {
-        window.location.href = safeUrl; // one-way redirect
+        window.location.replace(safeUrl); // no back button possible
       }
     });
   </script>
