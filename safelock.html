@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔒 StudyZone Safe Lock</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card {
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+    }
+    .status {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔒 StudyZone Safe Lock</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+      <li><a href="chat.html">💬 Chat</a></li>
+      <li><a href="safelock.html">🔒 Safe Lock</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>Set up your Safe Lock</h2>
+      <label for="shortcutKey">Shortcut key (e.g. q, Escape, s)</label>
+      <input type="text" id="shortcutKey" placeholder="Type one key">
+
+      <label for="safeUrl">Safe URL (e.g. https://www.google.com)</label>
+      <input type="url" id="safeUrl" placeholder="https://...">
+
+      <button id="saveBtn">✅ Save</button>
+
+      <p class="status" id="statusMsg"></p>
+    </div>
+  </main>
+
+  <script>
+    const shortcutInput = document.getElementById("shortcutKey");
+    const urlInput = document.getElementById("safeUrl");
+    const saveBtn = document.getElementById("saveBtn");
+    const statusMsg = document.getElementById("statusMsg");
+
+    let safeKey = null;
+    let safeUrl = null;
+    let studyzoneUrl = "https://averagegael.github.io/StudyZone/#home";
+    let isSafe = false;
+
+    // Save button
+    saveBtn.onclick = () => {
+      safeKey = shortcutInput.value.trim().toLowerCase();
+      safeUrl = urlInput.value.trim();
+      if (!safeKey || !safeUrl) {
+        statusMsg.textContent = "❌ Please enter both a shortcut key and URL.";
+        statusMsg.style.color = "red";
+        return;
+      }
+      statusMsg.textContent = `✅ Safe lock ready! Press "${safeKey}" anytime to toggle.`;
+      statusMsg.style.color = "green";
+    };
+
+    // Listen for key
+    document.addEventListener("keydown", e => {
+      if (!safeKey || !safeUrl) return;
+      if (e.key.toLowerCase() === safeKey) {
+        const iframe = window.frameElement; // if inside cloak
+        if (iframe) {
+          iframe.src = isSafe ? studyzoneUrl : safeUrl;
+          isSafe = !isSafe;
+        } else {
+          window.location.href = isSafe ? studyzoneUrl : safeUrl;
+          isSafe = !isSafe;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
