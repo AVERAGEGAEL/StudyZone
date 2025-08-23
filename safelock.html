@@ -80,13 +80,17 @@
       statusMsg.style.color = "green";
     };
 
-    // One-way redirect: open desired site in a fresh tab and close StudyZone
+    // One-way redirect: open desired site in a new tab and try to close current tab
     document.addEventListener("keydown", e => {
       if (!safeKey || !safeUrl) return;
       if (e.key.toLowerCase() === safeKey) {
-        const newTab = window.open(safeUrl, "_blank"); // open site in new tab
+        // Open website in new tab
+        const newTab = window.open(safeUrl, "_blank");
+
+        // Try closing current tab (may fail if tab wasn't opened by JS)
         try {
-          window.close(); // close current StudyZone tab (works if opened via JS)
+          window.open("about:blank", "_self"); // make current tab blank
+          window.close();
         } catch {}
       }
     });
