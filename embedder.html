@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌐 StudyZone Embedder</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card {
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+    }
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌐 StudyZone Embedder</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+      <li><a href="chat.html">💬 Chat</a></li>
+      <li><a href="safelock.html">🔒 Safe Lock</a></li>
+      <li><a href="embedder.html">🌐 Embedder</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>Embed any website</h2>
+      <p>Enter the URL of the website you want to open. It will launch in a new about:blank tab.</p>
+
+      <label for="embedUrl">Website URL (e.g. https://www.google.com)</label>
+      <input type="text" id="embedUrl" placeholder="https://...">
+
+      <button id="openBtn">✅ Open</button>
+      <p class="status" id="statusMsg"></p>
+    </div>
+  </main>
+
+  <script>
+    const embedInput = document.getElementById("embedUrl");
+    const openBtn = document.getElementById("openBtn");
+    const statusMsg = document.getElementById("statusMsg");
+
+    openBtn.onclick = () => {
+      let url = embedInput.value.trim();
+      if (!url) {
+        statusMsg.textContent = "❌ Please enter a URL.";
+        statusMsg.style.color = "red";
+        return;
+      }
+
+      // Auto-add https:// if missing
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+
+      statusMsg.textContent = `✅ Opening ${url} in a new tab...`;
+      statusMsg.style.color = "green";
+
+      // Open new tab and try to blank the current tab
+      const newTab = window.open("about:blank", "_blank");
+      try {
+        newTab.location.href = url; // navigate the new tab
+        window.open("about:blank", "_self"); // blank current tab
+        window.close();
+      } catch {}
+    };
+  </script>
+</body>
+</html>
