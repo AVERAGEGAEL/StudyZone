@@ -48,7 +48,7 @@
   <main>
     <div class="card">
       <h2>Embed any website</h2>
-      <p>Enter the URL of the website you want to open. It will launch in a new about:blank tab.</p>
+      <p>Enter the URL of the website you want to open. A new blank tab will open for you to use manually.</p>
 
       <label for="embedUrl">Website URL (e.g. https://www.google.com)</label>
       <input type="text" id="embedUrl" placeholder="https://...">
@@ -76,16 +76,13 @@
         url = "https://" + url;
       }
 
-      statusMsg.textContent = `✅ Opening ${url} in a new tab...`;
+      statusMsg.textContent = `✅ Opened a new blank tab. You can use it to manually navigate to ${url}.`;
       statusMsg.style.color = "green";
 
-      // Open new tab and try to blank the current tab
+      // Open a new blank tab only
       const newTab = window.open("about:blank", "_blank");
-      try {
-        newTab.location.href = url; // navigate the new tab
-        window.open("about:blank", "_self"); // blank current tab
-        window.close();
-      } catch {}
+
+      // Do NOT redirect the new tab — student can navigate manually
     };
   </script>
 </body>
