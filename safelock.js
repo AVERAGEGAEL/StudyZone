@@ -22,21 +22,29 @@ if (saveBtn) {
     safeUrl = urlInput.value.trim();
 
     if (!safeKey || !safeUrl) {
-      statusMsg.textContent = "❌ Please enter both a shortcut key and URL.";
-      statusMsg.style.color = "red";
+      if (statusMsg) {
+        statusMsg.textContent = "❌ Please enter both a shortcut key and URL.";
+        statusMsg.style.color = "red";
+      }
       return;
     }
 
     localStorage.setItem("safeKey", safeKey);
     localStorage.setItem("safeUrl", safeUrl);
 
-    statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
-    statusMsg.style.color = "green";
+    if (statusMsg) {
+      statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
+      statusMsg.style.color = "green";
+    }
   };
 }
 
 // Global shortcut listener for all pages
 document.addEventListener("keydown", e => {
+  // Ignore typing in inputs/textareas
+  const activeEl = document.activeElement;
+  if (activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA")) return;
+
   // Always fetch latest from localStorage
   const key = localStorage.getItem("safeKey");
   const url = localStorage.getItem("safeUrl");
