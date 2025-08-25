@@ -60,55 +60,7 @@
     </div>
   </main>
 
-  <script>
-    const shortcutInput = document.getElementById("shortcutKey");
-    const urlInput = document.getElementById("safeUrl");
-    const saveBtn = document.getElementById("saveBtn");
-    const statusMsg = document.getElementById("statusMsg");
-
-    // Load saved values from localStorage if they exist
-    let safeKey = localStorage.getItem("safeKey") || "";
-    let safeUrl = localStorage.getItem("safeUrl") || "";
-    shortcutInput.value = safeKey;
-    urlInput.value = safeUrl;
-
-    if (safeKey && safeUrl) {
-      statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
-      statusMsg.style.color = "green";
-    }
-
-    saveBtn.onclick = () => {
-      safeKey = shortcutInput.value.trim().toLowerCase();
-      safeUrl = urlInput.value.trim();
-
-      if (!safeKey || !safeUrl) {
-        statusMsg.textContent = "❌ Please enter both a shortcut key and URL.";
-        statusMsg.style.color = "red";
-        return;
-      }
-
-      // Save to localStorage
-      localStorage.setItem("safeKey", safeKey);
-      localStorage.setItem("safeUrl", safeUrl);
-
-      statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
-      statusMsg.style.color = "green";
-    };
-
-    // One-way redirect: open desired site in a new tab and try to close current tab
-    document.addEventListener("keydown", e => {
-      if (!safeKey || !safeUrl) return;
-      if (e.key.toLowerCase() === safeKey) {
-        // Open website in new tab
-        const newTab = window.open(safeUrl, "_blank");
-
-        // Try closing current tab (may fail if tab wasn't opened by JS)
-        try {
-          window.open("about:blank", "_self"); // make current tab blank
-          window.close();
-        } catch {}
-      }
-    });
-  </script>
+  <!-- Include the shared Safe Lock JS -->
+  <script src="safelock.js"></script>
 </body>
 </html>
