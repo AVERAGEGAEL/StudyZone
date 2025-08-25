@@ -66,17 +66,31 @@
     const saveBtn = document.getElementById("saveBtn");
     const statusMsg = document.getElementById("statusMsg");
 
-    let safeKey = null;
-    let safeUrl = null;
+    // Load saved values from localStorage if they exist
+    let safeKey = localStorage.getItem("safeKey") || "";
+    let safeUrl = localStorage.getItem("safeUrl") || "";
+    shortcutInput.value = safeKey;
+    urlInput.value = safeUrl;
+
+    if (safeKey && safeUrl) {
+      statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
+      statusMsg.style.color = "green";
+    }
 
     saveBtn.onclick = () => {
       safeKey = shortcutInput.value.trim().toLowerCase();
       safeUrl = urlInput.value.trim();
+
       if (!safeKey || !safeUrl) {
         statusMsg.textContent = "❌ Please enter both a shortcut key and URL.";
         statusMsg.style.color = "red";
         return;
       }
+
+      // Save to localStorage
+      localStorage.setItem("safeKey", safeKey);
+      localStorage.setItem("safeUrl", safeUrl);
+
       statusMsg.textContent = `✅ Safe Lock armed! Press "${safeKey}" anytime to go to ${safeUrl}`;
       statusMsg.style.color = "green";
     };
