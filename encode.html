@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Encoder / Decoder - StudyZone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📘 StudyZone</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+      <li><a href="chat.html">💬 Chat</a></li>
+      <li><a href="safelock.html">🔒 Safe Lock</a></li>
+      <li><a href="embedder.html">🚀 Embedder</a></li>
+      <li><a href="encode.html">🔡 Text Encoder</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>🔡 Text Encoder / Decoder</h2>
+      <textarea id="inputText" placeholder="Enter text here..." style="width:100%; height:120px;"></textarea>
+      <br><br>
+      <button onclick="encodeText()">Encode</button>
+      <button onclick="decodeText()">Decode</button>
+      <br><br>
+      <textarea id="outputText" placeholder="Result..." style="width:100%; height:120px;" readonly></textarea>
+    </div>
+  </main>
+
+  <script>
+    function encodeText() {
+      const input = document.getElementById("inputText").value;
+      document.getElementById("outputText").value = btoa(unescape(encodeURIComponent(input)));
+    }
+
+    function decodeText() {
+      const input = document.getElementById("inputText").value;
+      try {
+        document.getElementById("outputText").value = decodeURIComponent(escape(atob(input)));
+      } catch (e) {
+        alert("Invalid encoded text!");
+      }
+    }
+  </script>
+
+  <!-- SafeLock script -->
+  <script src="safelock.js"></script>
+</body>
+</html>
