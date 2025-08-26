@@ -3,8 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tab Cloaker - StudyZone</title>
+  <title>TabCloaker - StudyZone</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #faviconDrop {
+      border: 2px dashed #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #faviconDrop.dragover {
+      border-color: green;
+      background-color: #f0fff0;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -22,21 +36,22 @@
       <li><a href="chat.html">💬 Chat</a></li>
       <li><a href="safelock.html">🔒 Safe Lock</a></li>
       <li><a href="embedder.html">🚀 Embedder</a></li>
-      <li><a href="encode.html">🔡 Text Encoder</a></li>
-      <li><a href="tabcloaker.html">🎭 Tab Cloaker</a></li>
+      <li><a href="tabcloaker.html">🛡️ TabCloaker</a></li>
     </ul>
   </div>
 
   <main>
     <div class="card">
-      <h2>🎭 Tab Cloaker</h2>
+      <h2>🛡️ TabCloaker</h2>
       <p>Create your own fake tab title and favicon!</p>
 
       <label for="fakeTitle">Fake Tab Title</label>
       <input type="text" id="fakeTitle" placeholder="Enter your fake title">
 
-      <label for="fakeFavicon">Fake Favicon URL</label>
+      <label>Fake Favicon</label>
       <input type="url" id="fakeFavicon" placeholder="Enter favicon URL (optional)">
+      
+      <div id="faviconDrop">💾 Drag & drop your favicon image here</div>
 
       <button id="applyBtn">✅ Apply</button>
       <p class="status" id="statusMsg"></p>
@@ -49,6 +64,7 @@
     const faviconInput = document.getElementById("fakeFavicon");
     const applyBtn = document.getElementById("applyBtn");
     const statusMsg = document.getElementById("statusMsg");
+    const faviconDrop = document.getElementById("faviconDrop");
 
     // Load saved values from localStorage
     const savedTitle = localStorage.getItem("fakeTitle") || "";
@@ -87,6 +103,33 @@
       statusMsg.textContent = "✅ Applied! Your tab title and favicon are now set.";
       statusMsg.style.color = "green";
     };
+
+    // Drag & drop favicon
+    faviconDrop.addEventListener("dragover", e => {
+      e.preventDefault();
+      faviconDrop.classList.add("dragover");
+    });
+    faviconDrop.addEventListener("dragleave", e => {
+      e.preventDefault();
+      faviconDrop.classList.remove("dragover");
+    });
+    faviconDrop.addEventListener("drop", e => {
+      e.preventDefault();
+      faviconDrop.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      if(file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          setFavicon(event.target.result);
+          localStorage.setItem("fakeFavicon", event.target.result);
+          statusMsg.textContent = "✅ Favicon set from your file!";
+          statusMsg.style.color = "green";
+        }
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please drop a valid image file!");
+      }
+    });
   </script>
 
   <!-- SafeLock script -->
