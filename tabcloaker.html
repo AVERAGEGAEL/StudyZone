@@ -30,47 +30,63 @@
   <main>
     <div class="card">
       <h2>🎭 Tab Cloaker</h2>
-      <p>Create your own fake tab! Enter any title and your custom favicon file.</p>
+      <p>Create your own fake tab title and favicon!</p>
 
-      <label for="customTitle">Tab Title:</label>
-      <input type="text" id="customTitle" placeholder="Enter fake title here..." style="width:100%;">
+      <label for="fakeTitle">Fake Tab Title</label>
+      <input type="text" id="fakeTitle" placeholder="Enter your fake title">
 
-      <label for="customFavicon">Favicon filename (must be in StudyZone folder):</label>
-      <input type="text" id="customFavicon" placeholder="example.ico" style="width:100%;">
+      <label for="fakeFavicon">Fake Favicon URL</label>
+      <input type="url" id="fakeFavicon" placeholder="Enter favicon URL (optional)">
 
-      <button onclick="applyCloak()">Apply Cloak</button>
-
-      <p style="margin-top:15px; font-size:0.9em; color:gray;">
-        💡 Tip: Students can drag their own .ico files into the StudyZone folder and type the filename here.
-      </p>
+      <button id="applyBtn">✅ Apply</button>
+      <p class="status" id="statusMsg"></p>
     </div>
   </main>
 
   <script>
-    function applyCloak() {
-      const title = document.getElementById("customTitle").value.trim();
-      const favicon = document.getElementById("customFavicon").value.trim();
+    // Elements
+    const titleInput = document.getElementById("fakeTitle");
+    const faviconInput = document.getElementById("fakeFavicon");
+    const applyBtn = document.getElementById("applyBtn");
+    const statusMsg = document.getElementById("statusMsg");
 
-      if (!title || !favicon) {
-        alert("❌ Please enter both a title and a favicon filename.");
-        return;
+    // Load saved values from localStorage
+    const savedTitle = localStorage.getItem("fakeTitle") || "";
+    const savedFavicon = localStorage.getItem("fakeFavicon") || "";
+    if(savedTitle) titleInput.value = savedTitle;
+    if(savedFavicon) faviconInput.value = savedFavicon;
+
+    // Apply saved title and favicon immediately
+    if(savedTitle) document.title = savedTitle;
+    if(savedFavicon) setFavicon(savedFavicon);
+
+    function setFavicon(url) {
+      let link = document.querySelector("link[rel*='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = url;
+    }
+
+    // Apply button click
+    applyBtn.onclick = () => {
+      const title = titleInput.value.trim();
+      const favicon = faviconInput.value.trim();
+
+      if(title) {
+        document.title = title;
+        localStorage.setItem("fakeTitle", title);
+      }
+      if(favicon) {
+        setFavicon(favicon);
+        localStorage.setItem("fakeFavicon", favicon);
       }
 
-      // Update tab title
-      document.title = title;
-
-      // Remove old favicon if exists
-      const oldIcon = document.querySelector("link[rel='icon']");
-      if (oldIcon) oldIcon.remove();
-
-      // Add new favicon
-      const link = document.createElement("link");
-      link.rel = "icon";
-      link.href = favicon;
-      document.head.appendChild(link);
-
-      alert(`✅ Cloak applied! Title: "${title}", Favicon: "${favicon}"`);
-    }
+      statusMsg.textContent = "✅ Applied! Your tab title and favicon are now set.";
+      statusMsg.style.color = "green";
+    };
   </script>
 
   <!-- SafeLock script -->
