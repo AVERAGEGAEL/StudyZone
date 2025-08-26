@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Cloaker - StudyZone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📘 StudyZone</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+      <li><a href="chat.html">💬 Chat</a></li>
+      <li><a href="safelock.html">🔒 Safe Lock</a></li>
+      <li><a href="embedder.html">🚀 Embedder</a></li>
+      <li><a href="encode.html">🔡 Text Encoder</a></li>
+      <li><a href="tabcloaker.html">🎭 Tab Cloaker</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>🎭 Tab Cloaker</h2>
+      <p>Create your own fake tab! Enter any title and your custom favicon file.</p>
+
+      <label for="customTitle">Tab Title:</label>
+      <input type="text" id="customTitle" placeholder="Enter fake title here..." style="width:100%;">
+
+      <label for="customFavicon">Favicon filename (must be in StudyZone folder):</label>
+      <input type="text" id="customFavicon" placeholder="example.ico" style="width:100%;">
+
+      <button onclick="applyCloak()">Apply Cloak</button>
+
+      <p style="margin-top:15px; font-size:0.9em; color:gray;">
+        💡 Tip: Students can drag their own .ico files into the StudyZone folder and type the filename here.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    function applyCloak() {
+      const title = document.getElementById("customTitle").value.trim();
+      const favicon = document.getElementById("customFavicon").value.trim();
+
+      if (!title || !favicon) {
+        alert("❌ Please enter both a title and a favicon filename.");
+        return;
+      }
+
+      // Update tab title
+      document.title = title;
+
+      // Remove old favicon if exists
+      const oldIcon = document.querySelector("link[rel='icon']");
+      if (oldIcon) oldIcon.remove();
+
+      // Add new favicon
+      const link = document.createElement("link");
+      link.rel = "icon";
+      link.href = favicon;
+      document.head.appendChild(link);
+
+      alert(`✅ Cloak applied! Title: "${title}", Favicon: "${favicon}"`);
+    }
+  </script>
+
+  <!-- SafeLock script -->
+  <script src="safelock.js"></script>
+</body>
+</html>
