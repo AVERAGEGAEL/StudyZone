@@ -7,7 +7,7 @@ Everything runs in the browser (GitHub Pages), so no installs needed.
 
 ## 🚀 Features
 
-✅ **Roogle Proxy** – A custom web proxy with iframe & UV hybrid support.  
+✅ **Roogle Proxy** – A custom web proxy with iframe.  
 ✅ **AI Chat** – Use OpenAI or Gemini directly in StudyZone.  
 ✅ **Calculator** – Simple Desmos embed for quick math.  
 ✅ **Grade Calculator** – Check and predict grades easily.  
@@ -22,7 +22,7 @@ Everything runs in the browser (GitHub Pages), so no installs needed.
 
 - `index.html` → Home dashboard (with sidebar + search).  
 - `style.css` → Global styles for all tools.  
-- `roogle.html` → Proxy page (iframe/UV hybrid).  
+- `roogle.html` → Proxy page (iframe).  
 - `ai.html` → AI chat embed (OpenAI + Gemini).  
 - `calculator.html` → Basic calculator (Desmos).  
 - `grade.html` → Grade calculator.  
