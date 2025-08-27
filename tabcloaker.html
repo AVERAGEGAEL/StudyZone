@@ -51,7 +51,9 @@
       <label>Fake Favicon</label>
       <input type="url" id="fakeFavicon" placeholder="Enter favicon URL (optional)">
       
-      <div id="faviconDrop">💾 Drag & drop your favicon image here</div>
+      <div id="faviconDrop">💾 Drag & drop your favicon image here or click to browse</div>
+      <!-- Hidden file input -->
+      <input type="file" id="faviconFile" accept="image/*" style="display:none">
 
       <button id="applyBtn">✅ Apply</button>
       <p class="status" id="statusMsg"></p>
@@ -59,20 +61,18 @@
   </main>
 
   <script>
-    // Elements
     const titleInput = document.getElementById("fakeTitle");
     const faviconInput = document.getElementById("fakeFavicon");
     const applyBtn = document.getElementById("applyBtn");
     const statusMsg = document.getElementById("statusMsg");
     const faviconDrop = document.getElementById("faviconDrop");
+    const faviconFile = document.getElementById("faviconFile");
 
-    // Load saved values from localStorage
+    // Load saved values
     const savedTitle = localStorage.getItem("fakeTitle") || "";
     const savedFavicon = localStorage.getItem("fakeFavicon") || "";
     if(savedTitle) titleInput.value = savedTitle;
     if(savedFavicon) faviconInput.value = savedFavicon;
-
-    // Apply saved title and favicon immediately
     if(savedTitle) document.title = savedTitle;
     if(savedFavicon) setFavicon(savedFavicon);
 
@@ -86,50 +86,43 @@
       link.href = url;
     }
 
-    // Apply button click
+    // Apply button
     applyBtn.onclick = () => {
       const title = titleInput.value.trim();
       const favicon = faviconInput.value.trim();
-
-      if(title) {
-        document.title = title;
-        localStorage.setItem("fakeTitle", title);
-      }
-      if(favicon) {
-        setFavicon(favicon);
-        localStorage.setItem("fakeFavicon", favicon);
-      }
-
+      if(title) { document.title = title; localStorage.setItem("fakeTitle", title); }
+      if(favicon) { setFavicon(favicon); localStorage.setItem("fakeFavicon", favicon); }
       statusMsg.textContent = "✅ Applied! Your tab title and favicon are now set.";
       statusMsg.style.color = "green";
     };
 
-    // Drag & drop favicon
-    faviconDrop.addEventListener("dragover", e => {
-      e.preventDefault();
-      faviconDrop.classList.add("dragover");
-    });
-    faviconDrop.addEventListener("dragleave", e => {
-      e.preventDefault();
-      faviconDrop.classList.remove("dragover");
-    });
+    // Drag & drop
+    faviconDrop.addEventListener("dragover", e => { e.preventDefault(); faviconDrop.classList.add("dragover"); });
+    faviconDrop.addEventListener("dragleave", e => { e.preventDefault(); faviconDrop.classList.remove("dragover"); });
     faviconDrop.addEventListener("drop", e => {
-      e.preventDefault();
-      faviconDrop.classList.remove("dragover");
+      e.preventDefault(); faviconDrop.classList.remove("dragover");
       const file = e.dataTransfer.files[0];
-      if(file && file.type.startsWith("image/")) {
+      handleFile(file);
+    });
+
+    // Click to open file picker
+    faviconDrop.addEventListener("click", () => faviconFile.click());
+    faviconFile.addEventListener("change", () => handleFile(faviconFile.files[0]));
+
+    function handleFile(file){
+      if(file && file.type.startsWith("image/")){
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function(event){
           setFavicon(event.target.result);
           localStorage.setItem("fakeFavicon", event.target.result);
           statusMsg.textContent = "✅ Favicon set from your file!";
           statusMsg.style.color = "green";
-        }
+        };
         reader.readAsDataURL(file);
       } else {
-        alert("Please drop a valid image file!");
+        alert("Please select a valid image file!");
       }
-    });
+    }
   </script>
 
   <!-- SafeLock script -->
