@@ -18,6 +18,11 @@
       border-color: green;
       background-color: #f0fff0;
     }
+    #testBtn {
+      margin-top: 10px;
+      padding: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -52,10 +57,10 @@
       <input type="url" id="fakeFavicon" placeholder="Enter favicon URL (optional)">
       
       <div id="faviconDrop">💾 Drag & drop your favicon image here or click to browse</div>
-      <!-- Hidden file input -->
       <input type="file" id="faviconFile" accept="image/*" style="display:none">
 
       <button id="applyBtn">✅ Apply</button>
+      <button id="testBtn">🧪 Test in New Tab</button>
       <p class="status" id="statusMsg"></p>
     </div>
   </main>
@@ -64,6 +69,7 @@
     const titleInput = document.getElementById("fakeTitle");
     const faviconInput = document.getElementById("fakeFavicon");
     const applyBtn = document.getElementById("applyBtn");
+    const testBtn = document.getElementById("testBtn");
     const statusMsg = document.getElementById("statusMsg");
     const faviconDrop = document.getElementById("faviconDrop");
     const faviconFile = document.getElementById("faviconFile");
@@ -96,6 +102,33 @@
       statusMsg.style.color = "green";
     };
 
+    // Test in new tab using Data URL
+    testBtn.onclick = () => {
+      const title = titleInput.value.trim() || "StudyZone";
+      const favicon = faviconInput.value.trim() || "desmos.png";
+      const html = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>${title}</title>
+          <link rel="icon" href="${favicon}" type="image/png">
+          <style>
+            body, html { margin:0; padding:0; height:100%; }
+            iframe { position:fixed; top:0; left:0; width:100%; height:100%; border:none; }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://averagegael.github.io/StudyZone/#home"></iframe>
+          <script>
+            document.addEventListener("contextmenu", e => e.preventDefault());
+          </script>
+        </body>
+        </html>`;
+      const dataURL = "data:text/html;base64," + btoa(unescape(encodeURIComponent(html)));
+      window.open(dataURL, "_blank");
+    };
+
     // Drag & drop
     faviconDrop.addEventListener("dragover", e => { e.preventDefault(); faviconDrop.classList.add("dragover"); });
     faviconDrop.addEventListener("dragleave", e => { e.preventDefault(); faviconDrop.classList.remove("dragover"); });
@@ -114,6 +147,7 @@
         const reader = new FileReader();
         reader.onload = function(event){
           setFavicon(event.target.result);
+          faviconInput.value = event.target.result;
           localStorage.setItem("fakeFavicon", event.target.result);
           statusMsg.textContent = "✅ Favicon set from your file!";
           statusMsg.style.color = "green";
@@ -125,7 +159,6 @@
     }
   </script>
 
-  <!-- SafeLock script -->
   <script src="safelock.js"></script>
 </body>
 </html>
