@@ -102,11 +102,13 @@
       statusMsg.style.color = "green";
     };
 
-    // Test in new tab using Data URL
+    // Test in new tab using about:blank
     testBtn.onclick = () => {
       const title = titleInput.value.trim() || "StudyZone";
       const favicon = faviconInput.value.trim() || "desmos.png";
-      const html = `
+
+      const popup = window.open("about:blank", "_blank");
+      popup.document.write(`
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -122,11 +124,11 @@
           <iframe src="https://averagegael.github.io/StudyZone/#home"></iframe>
           <script>
             document.addEventListener("contextmenu", e => e.preventDefault());
-          </script>
+          <\/script>
         </body>
-        </html>`;
-      const dataURL = "data:text/html;base64," + btoa(unescape(encodeURIComponent(html)));
-      window.open(dataURL, "_blank");
+        </html>
+      `);
+      popup.document.close();
     };
 
     // Drag & drop
