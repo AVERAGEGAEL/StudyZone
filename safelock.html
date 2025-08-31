@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔒 StudyZone Safe Lock</title>
+  <title>🔒 StudyZone Safe Lock V2</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .card {
@@ -24,11 +24,31 @@
       margin-top: 15px;
       font-weight: bold;
     }
+    #monitorModal {
+      display: none;
+      position: fixed;
+      top:0; left:0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      color: white;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    #monitorModal button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🔒 StudyZone Safe Lock</h1>
+    <h1>🔒 StudyZone Safe Lock V2</h1>
     <input type="text" id="searchBar" placeholder="Search tools...">
   </header>
 
@@ -62,7 +82,15 @@
     </div>
   </main>
 
-  <!-- Include the shared Safe Lock JS -->
-  <script src="safelock.js"></script>
+  <!-- Modal for monitoring detection -->
+  <div id="monitorModal">
+    <h2>⚠ Monitoring Detected!</h2>
+    <p>Choose an action:</p>
+    <button id="cloakBtn">🛡 Cloak (Full-Screen Safe Site)</button>
+    <button id="deleteBtn">❌ Delete StudyZone</button>
+    <button id="stayBtn">💤 Do Nothing</button>
+  </div>
+
+  <script src="safelock-v2.js"></script>
 </body>
 </html>
