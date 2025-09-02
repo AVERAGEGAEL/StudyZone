@@ -1,4 +1,4 @@
-// ==== SafeLock V2 JS ====
+// ==== SafeLock V2 JS (Aggressive Detection) ====
 
 // Load saved values from localStorage
 let safeKey = localStorage.getItem("safeKey") || "";
@@ -64,33 +64,57 @@ document.addEventListener("keydown", e => {
   }
 });
 
-// ===== GoGuardian / monitoring detection =====
-// Example: basic polling for known monitoring iframe or element
+// ===== Aggressive GoGuardian / Monitoring Detection =====
 function detectMonitoring() {
-  // Look for known GoGuardian iframe patterns (can expand later)
-  const iframes = document.getElementsByTagName("iframe");
-  for (let iframe of iframes) {
-    if (iframe.src.includes("goguardian.com")) {
-      return true;
-    }
-  }
+  try {
+    // Check for known GoGuardian iframes or scripts
+    const iframes = document.getElementsByTagName("iframe");
+    for (let iframe of iframes) if (iframe.src.includes("goguardian.com")) return true;
 
-  // Optionally check scripts
-  const scripts = document.getElementsByTagName("script");
-  for (let script of scripts) {
-    if (script.src.includes("goguardian.com")) {
-      return true;
-    }
-  }
+    const scripts = document.getElementsByTagName("script");
+    for (let script of scripts) if (script.src.includes("goguardian.com")) return true;
 
-  return false;
+    // MutationObserver: check added nodes
+    let suspicious = false;
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(m => {
+        m.addedNodes.forEach(node => {
+          if (node.tagName === "IFRAME" && node.src.includes("goguardian.com")) suspicious = true;
+          if (node.tagName === "SCRIPT" && node.src.includes("goguardian.com")) suspicious = true;
+          if (node.style && node.style.display === "none") suspicious = true; // hidden overlays
+        });
+      });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Detect suspicious event listeners
+    const originalAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+      if (["keydown","mousemove","click"].includes(type)) suspicious = true;
+      originalAddEventListener.call(this, type, listener, options);
+    };
+
+    // Detect network requests to monitoring endpoints
+    const originalFetch = window.fetch;
+    window.fetch = function(...args) {
+      if (args[0].includes("goguardian.com")) suspicious = true;
+      return originalFetch.apply(this, args);
+    };
+    const originalXHR = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url) {
+      if (url.includes("goguardian.com")) suspicious = true;
+      return originalXHR.apply(this, arguments);
+    };
+
+    return suspicious;
+  } catch {
+    return false;
+  }
 }
 
 // Poll every 2 seconds
 setInterval(() => {
-  if (detectMonitoring()) {
-    showMonitorModal();
-  }
+  if (detectMonitoring()) showMonitorModal();
 }, 2000);
 
 // ===== Modal =====
