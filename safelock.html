@@ -5,44 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🔒 StudyZone Safe Lock V2</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Load SafeLock JS early -->
+  <script src="safelock.js" defer></script>
+
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
     .card {
       padding: 20px;
       max-width: 500px;
       margin: auto;
     }
+
     label {
       display: block;
       margin-top: 10px;
     }
+
     input {
       width: 100%;
       padding: 5px;
       margin-top: 5px;
     }
+
     .status {
       margin-top: 15px;
       font-weight: bold;
     }
+
     #monitorModal {
       display: none;
       position: fixed;
-      top:0; left:0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.75);
+      inset: 0;
+      background: rgba(0,0,0,0.9);
       color: white;
       font-family: Arial, sans-serif;
-      z-index: 9999;
+      z-index: 10000;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       text-align: center;
     }
+
     #monitorModal button {
       margin: 10px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
+      border: none;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -91,6 +107,14 @@
     <button id="stayBtn">💤 Do Nothing</button>
   </div>
 
-  <script src="safelock.js"></script>
+  <!-- Inline fallback (if safelock.js is blocked) -->
+  <script>
+    window.addEventListener("error", (e) => {
+      if (e.target.tagName === "SCRIPT" && e.target.src.includes("goguardian")) {
+        document.body.innerHTML = "<h1>⚠ Monitoring Script Detected!</h1>";
+        location.href = "https://www.google.com";
+      }
+    }, true);
+  </script>
 </body>
 </html>
