@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚙️ StudyZone Settings</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="settings-loader.js" defer></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .card {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+
+    .toggle label {
+      font-weight: bold;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4caf50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚙️ StudyZone Settings</h1>
+    <input type="text" id="searchBar" placeholder="Search tools...">
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="roogle.html">🌐 Proxy</a></li>
+      <li><a href="ai.html">🤖 AI Chat</a></li>
+      <li><a href="calculator.html">🧮 Calculator</a></li>
+      <li><a href="grade.html">📊 Grade Calculator</a></li>
+      <li><a href="chat.html">💬 Chat</a></li>
+      <li><a href="safelock.html">🔒 Safe Lock</a></li>
+      <li><a href="embedder.html">🚀 Embedder</a></li>
+      <li><a href="encode.html">🔡 Text Encoder</a></li>
+      <li><a href="tabcloaker.html">🎭 Tab Cloaker</a></li>
+      <li><a href="settings.html" class="active">⚙️ Settings</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>Manage Hidden Tools</h2>
+
+      <div class="toggle">
+        <label>🔒 SafeLock V2</label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-safelock">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle">
+        <label>🌐 Network Cloak</label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-networkcloak">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle">
+        <label>📡 Teacher Jammer</label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-jammer">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle">
+        <label>🪞 About:Blank Cloak</label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-aboutblank">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const toggles = {
+      safelock: document.getElementById("toggle-safelock"),
+      networkcloak: document.getElementById("toggle-networkcloak"),
+      jammer: document.getElementById("toggle-jammer"),
+      aboutblank: document.getElementById("toggle-aboutblank"),
+    };
+
+    // Load saved states
+    for (const key in toggles) {
+      toggles[key].checked = localStorage.getItem(key) === "enabled";
+      toggles[key].addEventListener("change", () => {
+        localStorage.setItem(key, toggles[key].checked ? "enabled" : "disabled");
+      });
+    }
+  </script>
+</body>
+</html>
