@@ -55,10 +55,29 @@ header input[type="text"] {
   top: 0;
   left: 0;
   bottom: 0;
+
+  /* make scrollable if content overflows */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Optional: smooth scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(59, 130, 246, 0.4);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .sidebar ul {
   list-style: none;
+  padding: 0 0 20px 0; /* bottom padding so last item isn't flush */
 }
 
 .sidebar ul li {
@@ -77,6 +96,12 @@ header input[type="text"] {
 .sidebar ul li a:hover {
   background: rgba(59, 130, 246, 0.1);
   color: var(--accent);
+}
+
+.sidebar ul li a.active {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--accent-hover);
+  font-weight: 600;
 }
 
 main {
