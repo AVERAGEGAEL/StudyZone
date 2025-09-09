@@ -20,7 +20,12 @@
       margin: auto;
     }
 
-    .toggle {
+    ul.settings-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.settings-list li {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -29,10 +34,6 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       background: #f9f9f9;
-    }
-
-    .toggle label {
-      font-weight: bold;
     }
 
     .switch {
@@ -102,56 +103,10 @@
   <main>
     <div class="card">
       <h2>Manage Hidden Tools</h2>
-
-      <div class="toggle">
-        <label>🔒 SafeLock V2</label>
-        <label class="switch">
-          <input type="checkbox" id="toggle-safelock">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="toggle">
-        <label>🌐 Network Cloak</label>
-        <label class="switch">
-          <input type="checkbox" id="toggle-networkcloak">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="toggle">
-        <label>📡 Teacher Jammer</label>
-        <label class="switch">
-          <input type="checkbox" id="toggle-jammer">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="toggle">
-        <label>🪞 About:Blank Cloak</label>
-        <label class="switch">
-          <input type="checkbox" id="toggle-aboutblank">
-          <span class="slider"></span>
-        </label>
-      </div>
+      <ul class="settings-list" id="settings-list">
+        <!-- Filled by settings-loader.js -->
+      </ul>
     </div>
   </main>
-
-  <script>
-    const toggles = {
-      safelock: document.getElementById("toggle-safelock"),
-      networkcloak: document.getElementById("toggle-networkcloak"),
-      jammer: document.getElementById("toggle-jammer"),
-      aboutblank: document.getElementById("toggle-aboutblank"),
-    };
-
-    // Load saved states
-    for (const key in toggles) {
-      toggles[key].checked = localStorage.getItem(key) === "enabled";
-      toggles[key].addEventListener("change", () => {
-        localStorage.setItem(key, toggles[key].checked ? "enabled" : "disabled");
-      });
-    }
-  </script>
 </body>
 </html>
